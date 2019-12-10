@@ -1,0 +1,17 @@
+You can use these simple examples to test the MPI wrappers.
+
+Requirements : mpicc and mpif90 from the same MPI distribution used to
+build ../libmpitrace.so .
+
+to build, type "make"
+
+to test :
+   on most systems : export LD_PRELOAD=../libmpitrace.so    
+   for IBM Spectrum MPI : export OMPI_LD_PRELOAD_POSTPEND=../libmpitrace.so
+   mpirun -np 2 ./hi
+   mpirun -np 2 ./hello
+   mpirun -np 2 ./mixed
+   unset LD_PRELOAD   (or unset OMPI_LD_PRELOAD_POSTPEND)
+
+Examine the mpi_profile output files and the sample codes, and ensure that 
+the call counts for each MPI call are correct.

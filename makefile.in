@@ -1,0 +1,22 @@
+# turn off -DHAS_INIT_THREAD if your MPI does not have MPI_Init_thread()
+# turn on -DUSE_LOCKS to add thread safety (this also adds overhead)
+
+CFLAGS = -g -O -fPIC -DHAS_INIT_THREAD #-DUSE_LOCKS
+
+libmpitrace.so : mpitrace.o mpitrace_sortx.o
+	mpicc -o libmpitrace.so -shared mpitrace.o mpitrace_sortx.o
+
+mpitrace.o : mpitrace.h mpitrace_ids.h init_part1.c init_part2.c mpitrace.c fortran_wrappers.c mpitrace_common.c
+	mpicc -c $(CFLAGS) mpitrace.c
+
+mpitrace_sortx.o : mpitrace_sortx.c
+	mpicc -c $(CFLAGS) mpitrace_sortx.c
+
+static : mpitrace.o mpitrace_sortx.o
+	ar rv libmpitrace.a mpitrace.o mpitrace_sortx.o
+
+clean :
+	rm -f *.o libmpitrace.so libmpitrace.a
+
+distclean :
+	rm -f *.o libmpitrace.so libmpitrace.a makefile

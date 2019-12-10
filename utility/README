@@ -1,0 +1,5 @@
+build : gcc -g -O2 readsparse.c -o readsparse
+use   : readsparse send_bytes.sparse.jobid >pattern.txt
+
+see ../README for information on communication patterns
+
