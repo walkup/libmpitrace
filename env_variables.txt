@@ -30,7 +30,7 @@ export SAVE_ALL_TASKS=yes
 Setting this to yes will produce one text output file for each MPI rank.
 
 export SAVE_LIST=0,20,40
-Use a comma sepatated list to specify the ranks that will produce profiler outputs.
+Use a comma separated list to specify the ranks that will produce profiler outputs.
 
 export TRACEBACK_ABORT=yes
 Produce a call-stack (instruction addresses) from MPI_Abort().

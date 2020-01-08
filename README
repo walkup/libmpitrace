@@ -1,7 +1,8 @@
 This directory has code for a MPI wrapper library : libmpitrace.so .
 
-To build, type : ./configure.sh
-This script just checks that you have mpicc in your PATH, and checks
+To build, type ./configure.sh ... and if that succeeds, type make.
+
+The script just checks that you have mpicc in your PATH, and checks
 that the underlying C compiler is gcc.  If both checks pass, the script
 copies "makefile.in" to "makefile", and then "make" should build the
 wrapper library.  By using your system's gcc compiler, the resulting
@@ -18,7 +19,9 @@ To use libmpitrace.so :
   (3) unset LD_PRELOAD (or unset OMPI_LD_PRELOAD_POSTPEND)
 
 The wrapper library intercepts MPI calls and prints a summary in text
-files : mpi_profile.jobid.rank.
+files : mpi_profile.jobid.rank.  Optional features are controlled via
+env variables.  A list is included in the text file env_variables.txt,
+and the basic features are described below.
 
 Most Linux systems use shared-libraries for MPI.  If your system uses
 statically linked executables, you would need to build a static library,
@@ -49,10 +52,10 @@ specific code block :
 C / C++ :  MPI_Pcontrol(1); code block; MPI_Pcontrol(0);
 Fortran : call mpi_pcontrol(1); code block; call mpi_pcontrol(0)
 
-The MPI_Pcontrol() routine is part of the MPI standard, and it is there
-to provide control for profiling tools like libmpitrace.so.  These
+The MPI_Pcontrol() routine is part of the MPI specification, and it is 
+there to provide control for profiling tools like libmpitrace.so.  These
 functions have no effect in the normal MPI library, so it is safe to
-add them as needed.
+add them as desired.
 
 ========================================================================
 Output control :
@@ -152,7 +155,7 @@ size, as well as a section that is inclusive of all communicators.
 Time-window profiling :
 
 The MPI wrapper library normally writes output when the application
-calls MPI _Finalize.  Sometimes it is convenient to have a method
+calls MPI_Finalize.  Sometimes it is convenient to have a method
 that can collect data in a predefined time window, and write it out
 as soon as the time-window closes.  You can do that by setting a few
 environment variables :
@@ -196,10 +199,9 @@ or you can request trace collection from all MPI ranks :
 export TRACE_ALL_TASKS=yes
 
 To collect trace data for a specific block of code, you can add calls to
-MPI_Pcontrol() with specific arguments : 
+MPI_Pcontrol() with specific arguments, 101 to start, 100 to stop :
 
-           start tracing ...................... stop tracing
-C / C++ : MPI_Pcontrol(101); ... code block ... MPI_Pcontrol(100);
+C / C++ : MPI_Pcontrol(101); ... code block ...; MPI_Pcontrol(100);
 Fortran : call mpi_pcontrol(101); code block; call mpi_pcontrol(100)
 
 If you have already instrumented your code with MPI_Pcontrol(1/0) to specify
