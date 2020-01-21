@@ -1170,7 +1170,7 @@ static void write_profile_data(void)
           fprintf(fh,sformat, label[id], event_count[id], avg_bytes, total_time[id]);
         }
       }
-      fprintf(fh,"-----------------------------------------------------------------\n");
+      fprintf(fh,"-----------------------------------------------------------------------\n");
       if (myrank == min_comm_task)
          fprintf(fh, "MPI task %d of %d had the minimum communication time.\n", myrank, ntasks);
       if (myrank == max_comm_task)
@@ -1659,7 +1659,7 @@ static void write_profile_data_myrank(void)
           fprintf(fh,sformat, label[id], event_count[id], avg_bytes, total_time[id]);
         }
       }
-      fprintf(fh,"-----------------------------------------------------------------\n");
+      fprintf(fh,"-----------------------------------------------------------------------\n");
       if (collective_barrier)
       {
          fprintf(fh,"synchronization time     = %.3f seconds.\n", synctime);

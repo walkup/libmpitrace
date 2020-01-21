@@ -21,7 +21,15 @@ To use libmpitrace.so :
 The wrapper library intercepts MPI calls and prints a summary in text
 files : mpi_profile.jobid.rank.  Optional features are controlled via
 env variables.  A list is included in the text file env_variables.txt,
-and the basic features are described below.
+and the basic features are described below.  It is recommended to test 
+your build of libmpitrace.so using the examples provided in the 
+"examples" directory, or with your own codes.  Extra care may be 
+required for codes that call MPI from a mix of languages that include 
+Fortran and C or C++ because some implementations of MPI handle 
+profiling interfaces for Fortran and C in ways that could result in 
+double-counting or missed function calls.  There are always solutions 
+for such cases, but these solutions are not included in the present 
+repository.
 
 Most Linux systems use shared-libraries for MPI.  If your system uses
 statically linked executables, you would need to build a static library,
